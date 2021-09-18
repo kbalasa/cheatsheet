@@ -1,0 +1,1 @@
+beeline -u jdbc:hive2://<host_name>:10001/default -n <user_name>

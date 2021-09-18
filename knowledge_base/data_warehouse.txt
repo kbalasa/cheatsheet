@@ -1,0 +1,7 @@
+Data Warehouse books to read
+===========================
+The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling, 3rd Edition by Ralph Kimball, Margy Ross
+
+Dimensional Modeling Techniques (Kimball Group)
+===============================================
+https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/

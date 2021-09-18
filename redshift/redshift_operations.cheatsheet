@@ -1,0 +1,612 @@
+-- To handle null values while copying data into redshift
+https://www.flydata.com/blog/handling-utf-8-characters-in-redshift/
+
+-- To find the amount of data scanned via spectrum
+select  sum(s3_scanned_bytes)/(1024*1024*1024) || ' GB'  from SVL_S3QUERY_SUMMARY where starttime >  '2020-05-07' and aborted = 0 and external_table_name like '%raw_events_spectrum%' ;
+
+-- Troubleshooting queries in Amazon Redshift Spectrum 
+https://docs.aws.amazon.com/redshift/latest/dg/c-spectrum-troubleshooting.html
+select * from SVV_EXTERNAL_SCHEMAS limit 10;
+select * from SVV_EXTERNAL_TABLES limit 10;
+select * from SVV_EXTERNAL_COLUMNS limit 100;
+select * from SVL_S3QUERY_SUMMARY where starttime > '2020-04-30' order by starttime desc limit 100;
+select * from SVL_S3LOG order by eventtime desc limit 100;
+select * from SVL_S3QUERY where query = 13186962;
+select * from SVL_S3PARTITION where query = 13186962;
+
+
+-- All about redshift Query Plan ( explain )
+================================
+https://docs.aws.amazon.com/redshift/latest/dg/c-the-query-plan.html
+
+-- To identify source of queries
+================================
+set query_group to '<identifier>';
+
+-- To list owners of the table
+==============================
+select schemaname || '.' || tablename, tableowner From pg_tables where tableowner not in ('rdsdb')
+and schemaname = '<schema_name>' and tableowner = '<username>';
+
+-- To get the table creation date and time
+=========================================
+select b.usename, a.starttime, a.endtime, trim(a.text) as ddl
+from stl_ddltext a, pg_user b
+where trim(a.text) ilike 'create%table%' and a.userid = b.usesysid
+and usename not in ('<xyz>','abc')
+and a.text ilike '%temptest.%' order by a.endtime desc limit 1000;
+
+
+-- No of rows inserted into Redshift table
+==========================================
+SELECT SUM(rows) FROM stl_insert WHERE query = pg_last_query_id()-1;
+INSERT INTO
+	REPORTING.JOB_RESULT_STATISTICS
+SELECT 
+	'kpi-daily-etl',
+	'summary_kpis_daily',
+	SUM(ROWS),
+    MAX(ENDTIME),
+    SUM(DATEDIFF(MS, STARTTIME, ENDTIME)
+FROM 
+	STL_INSERT
+WHERE 
+	QUERY = PG_LAST_QUERY_ID();
+
+
+
+-- To print table ddl statement
+-- https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminViews/v_generate_tbl_ddl.sql
+===============================
+select ddl
+from reporting.v_generate_tbl_ddl
+where schemaname = 'temptest'
+and tablename = 'summary_pvp_reinf_squad_stats';
+
+-- To identify a user executing a query
+========================================
+select * from STL_QUERY where querytxt like '%client_health_data_summary%' and userid = 168 limit 10;
+select * from pg_user where usesysid = 168;
+
+-- To get the table size
+========================
+select *
+from SVV_TABLE_INFO order by size desc limit 100;
+
+-- To find the data size being scanned
+======================================
+select sum(bytes) / (1024 * 1024 * 1024 ) as data_size_in_gb
+from svl_query_summary where label like '%scan%' and (
+  label not like '%Internal Worktable%' and label not like '%S3%');
+
+-- To find the data size being scanned
+========================================
+drop table if exists #my_queries;
+create temp table #my_queries as
+select userid, query, pid, starttime, endtime from stl_query where querytxt like '%raw_events_authenticated%' or querytxt like '%user_retention_daily%';
+select query from #my_queries;
+select sum(bytes)/(1024 * 1024 * 1024) as data_size_in_gb from svl_query_summary where query in (select query from #my_queries
+where label like '%raw_events_authenticated%' or label like '%user_retention_daily%');
+
+-- To get privilege for a given user on schemas
+===============================================
+SELECT
+    u.usename,
+    s.schemaname,
+    has_schema_privilege(u.usename,s.schemaname,'create') AS user_has_select_permission,
+    has_schema_privilege(u.usename,s.schemaname,'usage') AS user_has_usage_permission
+FROM
+    pg_user u
+CROSS JOIN
+    (SELECT DISTINCT schemaname FROM pg_tables) s
+WHERE
+    u.usename = 'cloomislofland'
+    AND s.schemaname = 'unitanalysis';
+
+
+-- To get the size of redshift tables.
+=====================================
+SELECT   TRIM(pgdb.datname) AS Database,
+         TRIM(a.name) AS Table,
+         ((b.mbytes/part.total::decimal)*100)::decimal(5,2) AS pct_of_total,
+         b.mbytes,
+         b.unsorted_mbytes
+FROM     stv_tbl_perm a
+JOIN     pg_database AS pgdb
+  ON     pgdb.oid = a.db_id
+JOIN     ( SELECT   tbl,
+                    SUM( DECODE(unsorted, 1, 1, 0)) AS unsorted_mbytes,
+                    COUNT(*) AS mbytes
+           FROM     stv_blocklist
+           GROUP BY tbl ) AS b
+       ON a.id = b.tbl
+JOIN     ( SELECT SUM(capacity) AS total
+           FROM   stv_partitions
+           WHERE  part_begin = 0 ) AS part
+      ON 1 = 1
+WHERE    a.slice = 0
+ORDER BY 4 desc, db_id, name;
+
+-- To list columns in a given table
+====================================
+SELECT * FROM information_schema.columns
+WHERE table_schema = 'myschema' AND table_name = 'mytable';
+
+-- To list tables in a given schema
+===================================
+SELECT * FROM information_schema.tables
+WHERE table_schema = 'myschema'; 
+
+-- To list all the schemas
+==========================
+select distinct nspname from pg_namespace where nspacl is not null;
+
+-- to disable super user
+=======================
+alter user <user_name> NOCREATEDB NOCREATEUSER;
+alter user <user_name> password disable;
+alter user <user_name> password 'change_password';
+commit;
+
+-- To list queries from a given user
+===================================
+SELECT a.*
+FROM stl_query a
+  INNER JOIN pg_user b ON a.userid = b.usesysid
+WHERE b.usename = '<user_name>'
+AND   a.starttime > '2018-03-23';
+
+-- To list redshift schema name
+============================
+select * from pg_namespace;
+
+--to delete a snapshot
+====================
+aws redshift delete-cluster-snapshot --snapshot-identifier <snapshot_name> 
+
+-- Identifying the conflicting transactions. (Debugging a Serializable isolation violation in Redshift (ERROR: 1023))
+=================================
+SELECT trim(querytxt) AS query FROM stl_query WHERE xid = '7328990';
+
+-- Redshift Admin Queries
+======================
+
+------------------------------------------------------------------------------------------
+-- Create user and add to a group
+------------------------------------------------------------------------------------------
+create user <user_name> NOCREATEDB NOCREATEUSER in group <group_name> password '<password>';
+
+------------------------------------------------------------------------------------------
+-- List users by group
+------------------------------------------------------------------------------------------
+SELECT GRONAME, USENAME FROM PG_GROUP, PG_USER WHERE USESYSID = ANY(GROLIST) ORDER BY 1;
+
+
+------------------------------------------------------------------------------------------
+-- List all the redshift users
+------------------------------------------------------------------------------------------
+select * from pg_user;
+
+------------------------------------------------------------------------------------------
+-- Get list of redshift sessions
+------------------------------------------------------------------------------------------
+select * from stv_sessions order by starttime;
+
+------------------------------------------------------------------------------------------
+-- To terminate redshift session 
+------------------------------------------------------------------------------------------
+select pg_terminate_backend(30641);
+
+------------------------------------------------------------------------------------------
+-- To get process id of running query. 
+------------------------------------------------------------------------------------------
+select pid, trim(user_name), starttime, substring(query,1,20) from stv_recents where status='Running';
+
+------------------------------------------------------------------------------------------
+-- To cancel or kill a query. 
+------------------------------------------------------------------------------------------
+cancel 18764;
+or
+set query_group to 'superuser';
+cancel 18764;
+reset query_group;
+
+----------------------------
+-- Low level redshift cheatsheet
+---------------------------
+https://gist.github.com/iconara/3523d89306153eb2ffaf
+
+----------------------------
+-- To get total number of slices 
+-- for your redshift cluster
+----------------------------
+select count(1) FROM stv_slices;
+
+-----------------------------
+-- To get table stats
+-----------------------------
+SELECT DISTINCT * FROM svv_table_info
+WHERE stats_off::DECIMAL(32,4) > 2::DECIMAL(32,4)
+AND   tbl_rows >(SELECT COUNT(1)*2 *1000000 / 6 FROM stv_slices)
+AND   TRIM("schema") = 'schema_name'
+AND   TRIM("table") = 'table_name';
+-----------------------------
+-- To check the privilege a user has over a table
+-----------------------------
+select has_table_privilege('user_name', 'schema.table', 'select');
+select has_table_privilege('user_name', 'schema.table', 'insert');
+select has_table_privilege('user_name', 'schema.table', 'update');
+select has_table_privilege('user_name', 'schema.table', 'delete');
+
+-----------------------------
+-- To get list of queries executed by a given user
+----------------------------
+select userid, starttime, querytxt 
+from stl_query 
+where starttime > '2017-01-01' and userid = 156 order by starttime;
+
+------------------------------------------------------------------------------------------
+-- grant usage : Note: always grant usage on schema before granting select on the tables in that schema.
+------------------------------------------------------------------------------------------
+grant usage on schema <schema_name> to group <group_name>;
+grant select on all tables in schema <schema_name> to group <group_name>;
+
+------------------------------------------------------------------------------------------
+-- To change user password
+------------------------------------------------------------------------------------------
+alter user <user_name> password 'Changethis123';
+
+
+
+------------------------------------------------------------------------------------------
+-- To get the table ddl, create the view - use the sql in this folder to create the view. 
+------------------------------------------------------------------------------------------
+select ddl from temptest.v_generate_tbl_ddl where schemaname = '<schema_name>' and tablename = '<table_name>' order by seq;
+
+-------------------------------------------------------------------------------------------------
+-- How to create a group and add users to it and grant usage to schema and grant select to table
+-------------------------------------------------------------------------------------------------
+create group <group_name>;
+alter group <group_name> add user <user_name>;
+grant usage on schema <schema_name> to group <group_name>;
+grant select on table <schema_name>.<table_name> to group <group_name>;
+grant select on all tables in schema <schema_name> to group <group_name>;
+commit;
+
+-------------------------------------------------------------------------------------------------
+-- To find the sortkey, diststyle --
+-------------------------------------------------------------------------------------------------
+set search_path to public, <schema_name>;
+show search_path;
+select "column", type, encoding, distkey, sortkey, "notnull" from pg_table_def where tablename = '<table_name>';
+or
+select encoded, diststyle, sortkey1, sortkey_num from SVV_TABLE_INFO where "table" = '<table_name>' ;
+
+-------------------------------------------------------------------------------------------------
+-- To get list of coloum and datatype of a given table in a schema
+-------------------------------------------------------------------------------------------------
+select * from information_schema.columns where table_schema = 'aggregates' and table_name = 'committed_players';
+
+
+-------------------------------------------------------------------------------------------------
+-- To drop redshift users 
+-------------------------------------------------------------------------------------------------
+-- find if the user owns any object
+select 
+    case when schemaname='public' then '' 
+        else schemaname+'.' end+tablename 
+    from pg_tables where tableowner = '<user_name>'
+union 
+    select 
+    case when schemaname='public' then ''
+        else schemaname+'.' end+viewname 
+    from pg_views where viewowner = '<user_name>';
+
+-----------------------------------------------------
+-- find if the user has access to any of the objects 
+-----------------------------------------------------
+SELECT pg_namespace.nspname AS schemaname,
+pg_class.relname AS tablename,
+ARRAY_TO_STRING(pg_class.relacl,',') AS acls
+FROM pg_class
+LEFT JOIN pg_namespace ON pg_class.relnamespace = pg_namespace.oid
+WHERE pg_class.relacl IS NOT NULL
+AND pg_namespace.nspname NOT IN ('pg_catalog','pg_toast','information_schema')
+AND ARRAY_TO_STRING(pg_class.relacl,',') LIKE '%<user_name>=%'
+ORDER BY pg_namespace.nspname,
+pg_class.relname;
+
+-----------------------------------------------------
+-- revoke access from these objects
+-----------------------------------------------------
+
+revoke all on all tables in schema <schema_name> from <user_name>;
+revoke all on schema <schema_name> from <user_name>;
+
+-----------------------------------------------------
+-- change owner of the tables owned by this user
+-----------------------------------------------------
+alter table  <schema_name>.<table_name> owner to <some_other_user>;
+
+-----------------------------------------------------
+-- drop user
+-----------------------------------------------------
+drop user if exists <user_name>;
+
+-----------------------------------------------------
+-- disable user
+-----------------------------------------------------
+alter user <user_name> valid until '2016-11-22 12:45:00';
+
+Redshift Developer Section
+==========================
+--------------------------------------------
+-- To run queries using command line ( psql )
+--------------------------------------------
+psql -h <redshift_host_name>  -p 5439  -U <user_name>   -d <database_name>
+
+-------------------------
+-- To laod and automatically compress the table
+-------------------------
+truncate table_name;
+
+copy table_name from 's3://mybucket/data_file.txt' 
+credentials '<aws-auth-args>'
+delimiter '|' COMPUPDATE ON;
+
+COPY schema_name.table_name
+from 's3://xyz/abc-'
+CREDENTIALS
+'aws_access_key_id=<id>;aws_secret_access_key=<key>'
+    GZIP
+    escape
+    delimiter ','
+    null as 'NULL';
+=====================================================================================
+=====================================================================================
+the following are from : https://gist.github.com/iconara/3523d89306153eb2ffaf
+-- Table information like sortkeys, unsorted percentage
+-- see http://docs.aws.amazon.com/redshift/latest/dg/r_SVV_TABLE_INFO.html
+SELECT * FROM svv_table_info;
+
+-- Table sizes in GB
+SELECT t.name, COUNT(tbl) / 1000.0 AS gb
+FROM (
+  SELECT DISTINCT datname, id, name
+  FROM stv_tbl_perm
+  JOIN pg_database ON pg_database.oid = db_id
+) AS t
+JOIN stv_blocklist ON tbl = t.id
+GROUP BY t.name ORDER BY gb DESC;
+
+-- Table column metadata
+SELECT * FROM pg_table_def
+WHERE schemaname = 'public'
+AND tablename = …;
+
+-- Vacuum progress
+-- see http://docs.aws.amazon.com/redshift/latest/dg/r_SVV_VACUUM_PROGRESS.html
+SELECT * FROM svv_vacuum_progress;
+
+-- The size in MB of each column of each table (actually the number of blocks, but blocks are 1 MB)
+-- see http://stackoverflow.com/questions/33388587/how-can-i-find-out-the-size-of-each-column-in-a-redshift-table
+SELECT
+  TRIM(name) as table_name,
+  TRIM(pg_attribute.attname) AS column_name,
+  COUNT(1) AS size
+FROM
+  svv_diskusage JOIN pg_attribute ON
+    svv_diskusage.col = pg_attribute.attnum-1 AND
+    svv_diskusage.tbl = pg_attribute.attrelid
+GROUP BY 1, 2
+ORDER BY 1, 2;
+
+-- List users and groups
+SELECT * FROM pg_user;
+SELECT * FROM pg_group;
+
+-- List all databases
+SELECT * FROM pg_database;
+
+-- List the 100 last load errors
+-- see http://docs.aws.amazon.com/redshift/latest/dg/r_STL_LOAD_ERRORS.html
+SELECT *
+FROM stl_load_errors
+ORDER BY starttime DESC
+LIMIT 100;
+
+-- Convert a millisecond resolution number to a TIMESTAMP
+SELECT TIMESTAMP 'epoch' + (millisecond_timestamp/1000 * INTERVAL '1 second') FROM …;
+
+-- Get the full SQL from a query ID
+SELECT LISTAGG(text) WITHIN GROUP (ORDER BY sequence) AS sql
+FROM STL_QUERYTEXT
+WHERE query = …;
+
+-- Get the full SQL, plus more query details from a query ID
+-- filter on xid to see all (including Redshift internal) operations in the transaction
+WITH query_sql AS (
+  SELECT
+    query,
+    LISTAGG(text) WITHIN GROUP (ORDER BY sequence) AS sql
+  FROM stl_querytext
+  GROUP BY 1
+)
+SELECT
+  q.query,
+  userid,
+  xid,
+  pid,
+  starttime,
+  endtime,
+  DATEDIFF(milliseconds, starttime, endtime)/1000.0 AS duration,
+  TRIM(database) AS database,
+  (CASE aborted WHEN 1 THEN TRUE ELSE FALSE END) AS aborted,
+  sql
+FROM
+  stl_query q JOIN query_sql qs ON (q.query = qs.query)
+WHERE
+  q.query = …
+ORDER BY starttime;
+
+-- Show the most recently executed DDL statements
+SELECT
+  starttime,
+  xid,
+  LISTAGG(text) WITHIN GROUP (ORDER BY sequence) AS sql
+FROM stl_ddltext
+GROUP BY 1, 2
+ORDER BY 1 DESC;
+
+-- Query duration stats per database, user and query group; including the max, median, 99 percentile, etc.
+-- Change which duration to use (queue, exec or total) by commenting out the right lines below
+WITH
+durations1 AS (
+  SELECT
+    TRIM("database") AS db,
+    TRIM(u.usename) AS "user",
+    TRIM(label) AS query_group,
+    DATE_TRUNC('day', starttime) AS day,
+    -- total_queue_time/1000000.0 AS duration,
+    -- total_exec_time/1000000.0 AS duration,
+    (total_queue_time + total_exec_time)/1000000.0 AS duration
+  FROM stl_query q, stl_wlm_query w, pg_user u
+  WHERE q.query = w.query
+    AND q.userid = u.usesysid
+    AND aborted = 0
+),
+durations2 AS (
+  SELECT
+    db,
+    "user",
+    query_group,
+    day,
+    duration,
+    PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY duration) OVER (PARTITION BY db, "user", query_group, day) AS median,
+    PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY duration) OVER (PARTITION BY db, "user", query_group, day) AS p75,
+    PERCENTILE_CONT(0.90) WITHIN GROUP (ORDER BY duration) OVER (PARTITION BY db, "user", query_group, day) AS p90,
+    PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY duration) OVER (PARTITION BY db, "user", query_group, day) AS p95,
+    PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY duration) OVER (PARTITION BY db, "user", query_group, day) AS p99,
+    PERCENTILE_CONT(0.999) WITHIN GROUP (ORDER BY duration) OVER (PARTITION BY db, "user", query_group, day) AS p999
+  FROM durations1
+)
+SELECT
+  db,
+  "user",
+  query_group,
+  day,
+  MIN(duration) AS min,
+  AVG(duration) AS avg,
+  MAX(median) AS median,
+  MAX(p75) AS p75,
+  MAX(p90) AS p90,
+  MAX(p95) AS p95,
+  MAX(p99) AS p99,
+  MAX(p999) AS p999,
+  MAX(duration) AS max
+FROM durations2
+GROUP BY 1, 2, 3, 4
+ORDER BY 1, 2, 3, 4;
+
+-- Currently executing and recently executed queries with status, duration, database, etc.
+SELECT
+  r.pid,
+  TRIM(status) AS status,
+  TRIM(db_name) AS db,
+  TRIM(user_name) AS "user",
+  TRIM(label) AS query_group,
+  r.starttime AS start_time,
+  r.duration,
+  r.query AS sql
+FROM stv_recents r LEFT JOIN stv_inflight i ON r.pid = i.pid;
+ 
+-- Show the remote host and port of running queries
+SELECT
+  recents.pid,
+  TRIM(db_name) AS db,
+  TRIM(user_name) AS "user",
+  TRIM(label) AS query_group,
+  recents.starttime AS start_time,
+  recents.duration,
+  recents.query AS sql,
+  TRIM(remotehost) AS remote_host,
+  TRIM(remoteport) AS remote_port
+FROM stv_recents recents
+LEFT JOIN stl_connection_log connections ON (recents.pid = connections.pid)
+LEFT JOIN stv_inflight inflight ON recents.pid = inflight.pid
+WHERE TRIM(status) = 'Running'
+AND event = 'initiating session';
+
+-- Show permissions
+WITH
+  users AS (
+    SELECT usename AS user_name FROM pg_user
+  ),
+  objects AS (
+    SELECT
+      schemaname AS schema_name,
+      'table' AS object_type,
+      tablename AS object_name,
+      schemaname + '.' + tablename AS full_object_name
+    FROM pg_tables
+    WHERE schemaname NOT IN ('pg_internal')
+    UNION
+    SELECT
+      schemaname AS schema_name,
+      'view' AS object_type,
+      viewname AS object_name,
+      schemaname + '.' + viewname AS full_object_name
+    FROM pg_views
+    WHERE schemaname NOT IN ('pg_internal')
+  )
+SELECT
+  schema_name,
+  object_name,
+  object_type,
+  user_name,
+  HAS_TABLE_PRIVILEGE(users.user_name, full_object_name, 'select') AS "select",
+  HAS_TABLE_PRIVILEGE(users.user_name, full_object_name, 'insert') AS "insert",
+  HAS_TABLE_PRIVILEGE(users.user_name, full_object_name, 'update') AS "update",
+  HAS_TABLE_PRIVILEGE(users.user_name, full_object_name, 'delete') AS "delete",
+  HAS_TABLE_PRIVILEGE(users.user_name, full_object_name, 'references') AS "references"
+FROM users, objects
+ORDER BY full_object_name;
+
+-- Find tables that need vacuum or analyze
+SELECT "database", "schema", "table", unsorted, stats_off
+FROM svv_table_info
+WHERE unsorted > 20
+OR stats_off > 20
+
+---------------------------------------------
+-- To get the list of scanned tables and the ammount of data and records scanned
+---------------------------------------------
+
+select table_name, sum(rows), sum(bytes)/(1024*1024*1024) size_in_gb from (
+select a.tbl, b.table_name, a.rows, a.bytes, a.perm_table_name  from stl_scan a left join ( select distinct "table" table_name, table_id from SVV_TABLE_INFO  where "table" like 'raw_events_authenticated%' ) b
+    on a.tbl = b.table_id where a.starttime > '2020-02-01' and a.perm_table_name like 'raw_events_authenticated%')
+group by table_name;
+
+--------------------------------
+To find the table with current updates
+--------------------------------
+SELECT table_id, 
+       last_update, 
+       lock_owner, 
+       lock_owner_pid 
+FROM   stv_locks; 
+
+To Kill the table locks
+-----------------------
+SELECT pg_terminate_backend(pid);
+
+To list sessions 
+-----------------
+SELECT * 
+FROM STV_SESSIONS;
+
+To kill/locks sessions
+-----------------------
+SELECT pg_terminate_backend(pid);
+
+

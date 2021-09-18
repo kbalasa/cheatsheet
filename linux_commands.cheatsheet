@@ -1,0 +1,256 @@
+# To see open ports
+====================
+sudo lsof -i -P -n | grep LISTEN
+sudo netstat -tulpn | grep LISTEN
+sudo ss -tulpn | grep LISTEN
+sudo lsof -i:22 ## see a specific port such as 22 ##
+sudo nmap -sTU -O IP-address-Here
+
+# to check the process start time
+================================
+ls -ld /proc/<process-id>
+
+# to execute linux or unix command remotely
+==========================================
+ssh ec2-user@hostname "tail -n 100 /var/app/current/logs/worker.log" | grep -i OutOfMemory
+
+# to set history on ubuntu
+==========================
+set -o | grep history
+set -o history
+#set the following in ~/.bashrc
+HISTFILE=$HOME/.bash_history
+HISTFILESIZE=500
+HISTSIZE=500
+
+# to sniff network traffic (-s0 to enable full packets; -X or -A)
+=========================
+sudo tcpdump -s0 -X host river-mobile.data.xx.com
+sudo tcpdump -s0 -X host river-mobile.data.xx.com and dst port 443
+
+# to see the request from localhost
+===================================
+sudo tcpdump tcp dst port 443
+
+
+# to gunzip a single file
+==========================
+gzip <filename>
+
+to keep the uncompressed file
+=============================
+gzip -k <filename>
+
+# mac date command example
+========================
+date -v "-1d"  +%Y-%m-%d
+
+# To convert rpm to deb package
+===============================
+sudo apt-get install alien
+sudo alien my_package.rpm
+sudo dpkg -i my_package.deb
+
+# To find which package has the given command
+=============================================
+sudo apt-get install apt-file
+apt-file update
+apt-file search add-apt-repository
+
+# To upgrade Ubuntu Release
+===========================
+sudo do-release-upgrade
+
+# To check for Ubuntu Version
+=============================
+lsb_release -a
+
+# To find the start time of a running process
+=============================================
+ps -eo pid,cmd,lstart
+
+# To upload artifacts to nexus repository
+=========================================
+curl -v -u admin:admin123 --upload-file app-config-library-1.1.1.pom http://ec2-52-201-248-221.compute-1.amazonaws.com:8081/repository/maven-releases/com/ea/tnt/app-config-library/1.1.1/app-config-library-1.1.1.pom
+
+# using curl
+============
+curl -vX POST https://river.data.ea.com/mobileLegacyEvents
+
+# To post json data in line
+===========================
+curl -H "Content-Type: application/json" -X POST -d '{"username":"xyz","password":"xyz"}' https://river.data.ea.com/mobileLegacyEvents
+
+# To post json data from file 
+===========================
+curl -H "Content-Type: application/json" -X POST -d @body.json https://river.data.ea.com/mobileLegacyEvents
+
+==========================
+# Developer commands
+==========================
+# ssh tunnel (port forwarding)
+------------------------------
+ssh -i ~/ec2key.pem -L 8888:localhost:8888 ubuntu@ec2-52-33-47-198.us-west-2.compute-amazonaws.com
+
+
+# To delete a file from zip file
+zip -d libs.zip main.py
+
+# to add a file to existing zip file
+zip -g libs.zip lambda_function.pyh
+
+# To search for a pattern in a file and print the filename
+--------------------
+grep -l -i playerguildmembership_stage1 *.sql
+
+# To untar .gz file
+--------------------
+gunzip filename.gz
+
+# To convert dos to unix and unix to dos
+----------------------------------------
+set ff=unix
+set ff=dos
+:1,$ s/\r//g
+
+==========================
+#Admin commands
+==========================
+
+# To check filesystem usage
+==========================
+df -h
+
+# Sort files by their size
+=========================
+du -sh /tmp/* | sort -h
+
+# Sort by directory size
+========================
+du -sc * .[^.]* | sort -n
+
+# To check inodes
+=================
+df -i
+
+# To redirect standard error and out to same file
+=================================================
+$ command >> <file_name> 2>&1
+
+# To extract jar file use this utility
+=====================================
+JD-GUI to extract jar file.
+
+# To strace java process
+========================
+$ strace -F -p <pid>
+
+# Command to get linux flavour
+===========================
+lsb_release -a
+
+# File to look for login info
+============================
+/var/log/auth.log
+
+# Coommand to check if sshd is running and listening
+====================================================
+netstat -anp | grep sshd
+
+# To check the firewall rules
+============================
+iptables -L | grep ssh
+
+# To list block device and their size
+=====================================
+lsblk
+
+# To install s3cmd on RHEL 6.X
+=============================
+1. go to /etc/yum.repos.d
+2. wget http://s3tools.org/repo/RHEL_6/s3tools.repo
+3. yum install s3cmd
+
+# To configure sudo access to given file
+========================================
+visudo
+username ALL=(ALL) NOPASSWD: ALL
+
+# Search for a string in files.
+==============================
+find . -name jobs.py -exec grep -nH hiveTableToFlatFile {} \;
+# max os example
+find /Users/kbalasa/projects/falcon-telemetry/data_pipeline/data_pipeline_etl_sql  -name "*.sql" -exec grep -nH aggregates.user_retention_daily {} \; > junk.txt
+
+# To debug sshd 
+===============
+/path/to/sshd -ddd -p 1022
+
+# To create symbolic link to /tmp directory
+===========================================
+1. Take backup of the /tmp such that they retain their owner and permissions
+2. delete /tmp
+3. create symbolic link (ln -s /ebs1/points_to_tmp tmp )
+4. move temp backup to tmp
+5. put the sticky bit back on tmp
+
+# Command to kill list of process id based on search
+====================================================
+for pid in $( jps | grep elt-component | awk '{ print $1 }'); do kill -9 $pid; done
+
+# Command to see listening ports
+================================
+netstat -an | grep "LISTEN"
+
+# Command to see only listening ports
+=====================================
+netstat -ln
+# Command to see only listening and non listening ports
+=======================================================
+netstat -an
+
+
+# C
+
+# Command to strip pid and kill the job using awk
+=================================================
+SPARK_ID=`ps -ef | grep spark | grep 10001 | awk '{print $2}'`
+echo $SPARK_ID
+
+# Another grep usage
+====================
+grep "[s]park.*[1]0001"
+
+
+# Command to get how long a process is running.
+==============================================
+ps -p "20022" -o etime=
+
+# Command to list Listen | establised connections. (mac)
+==================================================
+lsof -i | grep -E "(LISTEN|ESTABLISHED)"
+lsof -iTCP
+
+# All network activity by a user
+===============================
+lsof -a -u name1 -i
+
+# Kill all programs w/network activity
+======================================
+kill -9 $(lsof -t -i) 
+
+# Command to list established connections
+=========================================
+netstat  -R inet -p | grep ESTABLISHED
+
+# Launch a screen
+=====================
+screen -S <sessionName>
+
+# To detach and attach to existing screen
+============================
+screen -d -R <sessionName>
+
+# to load azkaban project
+=========================
+azkaban build -u <user_name>@<azkaban_host>:8081/ -c

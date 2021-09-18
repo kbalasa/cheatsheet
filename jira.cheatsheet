@@ -1,0 +1,23 @@
+-----------------------------------
+-- Jira Queries
+---------------------------------
+# To get all the tickets by assignee for given updateDate > YYYY-MM-DD
+project = "DATA" AND assignee = kbalasa and updatedDate > '2018-03-15' ORDER BY updatedDate
+
+project = "DATA" AND assignee = currentuser()
+
+(status=resolved AND project=SysAdmin) OR assignee=bobsmith
+
+project = "DATA" AND assignee = currentuser() and status = Done
+
+project = "DATA" AND assignee = currentuser() and status = Done and updated >= '2018-10-01'
+
+https://confluence.atlassian.com/jirasoftwarecloud/advanced-searching-fields-reference-764478339.html#Advancedsearching-fieldsreference-UpdatedUpdatedDateupdatedDateUpdated
+
+https://confluence.atlassian.com/jirasoftwarecloud/advanced-searching-764478330.html
+
+-----------
+project = DATA AND resolution = Unresolved ORDER BY priority DESC, updated DESC
+
+# To get all tickets which are updated between certain time and with Done resolution.
+project = DATA AND updatedDate > 2019-03-15 AND resolution = Done ORDER BY updatedDate ASC

@@ -1,0 +1,25 @@
+-- How to start hive service 
+service hive_served restart
+
+-- To create table
+create table u_data ( userid int, movieid int, rating int, unixtime string) row format delimited fields terminated by '\t';
+
+-- To load data from file
+load data local inpath '/tmp/unix.data' into table u_data;
+
+-- To add python code to hive
+add file /tmp/weekday_mapper.py;
+
+-- To create table
+create table u_data_new ( userid int, movieid int, rating int, weekday int) row format delimited fields terminated by '\t';
+
+-- To overwrite a table
+insert overwrite table u_data_new select transform (userid, movieid, rating, unixtime) using 'python weekday_mapper.py' as (userid, movieid, rating, weekday) from u_data;
+
+-- To create function using jar file
+add jar /abc.jar
+create temporary function userdate as 'JavaClassName';
+select id, userdate(unixtime) from testing;
+
+-- How to use python code to add custom functions
+select  transform (s.master_id, s.publishers) using 'concatenate_strings_by_key.py' as (master_id, publishers) from (select ms.master_id as master_id, s.publishers as publishers from music_bvmggod.clean_master_song ms, music_bvmggod.clean_song s where ms.song_id = s.song_id group by ms.master_id, s.publishers) s;

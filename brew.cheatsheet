@@ -1,0 +1,18 @@
+# To install using brew
+======================
+brew install elasticsearch
+
+# To start a service using brew
+===============================
+brew services start dynamodb-local
+brew services start redis
+brew services start elasticsearch
+brew services start mysql
+
+# To restart a service using brew
+================================
+brew services restart elasticsearch
+
+# To upgrade a package using brew
+================================
+brew upgrade maven

@@ -1,0 +1,19 @@
+# To allow google cloud sdk permission to your account
+======================================================
+gcloud auth login
+
+# To set project_id
+===================
+gcloud config set project PROJECT_ID
+
+# To list active account name
+============================
+gcloud auth list
+
+# To list project ID
+===================
+gcloud config list project
+
+# To deploy dag on GCP
+======================
+gcloud composer environments storage dags import --environment=airflow-revamp-aggregation --source ./local_path/goh_player_daily_and_kpi.py --location us-central1

@@ -1,0 +1,30 @@
+# to extract a jar file
+=======================
+jar -xf <file_name.jar>
+
+# monitoring java heap
+java -XX:+PrintFlagsFinal -version | grep -iE 'HeapSize|PermSize|ThreadStackSize'  # divide by 1024 * 1024 to get size in MB
+
+Notes:
+Heap Size : java -Xmx1024m
+
+===================================
+web: java -jar server.jar -Xmx512m
+web: java -jar server.jar $JAVA_OPTS
+
+Procfile:
+	web: ./run.sh
+
+run.sh:
+	exec java -jar server.jar $JAVA_OPTS
+===============================
+Procfile:
+	web: java -jar <relative-path-to-jar> -Xms512m -Xmx896m
+
+=========================================================================
+web: java -jar  -Xms3g -Xmx3g -XX:MaxPermSize=256m kinesis-pin-worker.jar
+
+They have this precedence:
+	_JAVA_OPTIONS (overwrites the others)
+	Command line parameters
+	JAVA_TOOL_OPTIONS (is overwritten by the others)

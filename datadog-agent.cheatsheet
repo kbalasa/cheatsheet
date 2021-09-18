@@ -1,0 +1,5 @@
+To start and stop datadog-agent on amazon linux
+===============================================
+stop datadog-agent
+start datadog-agent
+status datadog-agent

@@ -1,0 +1,9 @@
+# regex cheat sheet
+===================
+http://www.rexegg.com/regex-quickstart.html
+
+# to match \u0000 character and remove it from string if it is at the end of line (Java Code)
+=================================================================================
+Pattern unicodeOutliers = Pattern.compile("\\u0000$"); //check for unicode null character at the end of line
+Matcher unicodeOutlierMatcher = unicodeOutliers.matcher(eventFieldValue);
+eventFieldValue = unicodeOutlierMatcher.replaceAll("");

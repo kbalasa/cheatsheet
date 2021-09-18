@@ -1,0 +1,172 @@
+------------------------------------------
+-- How to ssh into running container 
+------------------------------------------
+docker exec -it <container name> /bin/bash
+
+------------------------------------------
+-- To run a container
+------------------------------------------
+docker run hello-world
+
+------------------------------------------
+-- To pull a container from docker registry 
+------------------------------------------
+docker pull busybox
+
+------------------------------------------
+-- To pass command to container 
+------------------------------------------
+docker pull busybox echo "hello world"
+
+------------------------------------------
+-- To list running containers 
+------------------------------------------
+docker ps
+
+------------------------------------------
+-- To list previously and currently running containers 
+------------------------------------------
+docker ps -a
+
+------------------------------------------
+-- To attach a container to interactive tty 
+------------------------------------------
+docker run -it busybox sh
+
+------------------------------------------
+-- To get docker help 
+------------------------------------------
+docker run --help
+
+------------------------------------------
+-- To delete stray containers 
+------------------------------------------
+docker rm <container id> <container id>
+or
+docker rm $(docker ps -a -q -f status=exited)
+or 
+docker container prune
+
+------------------------------------------
+-- To automatically delete containers when they exist 
+------------------------------------------
+docker run --rm busybee 
+
+------------------------------------------
+-- To detach the the running container from terminal 
+------------------------------------------
+docker run -d -P --name static-site busybee 
+
+------------------------------------------
+-- To list the ports the container is mapped to 
+------------------------------------------
+docker port busybee
+
+------------------------------------------
+-- To map custom ports 
+------------------------------------------
+docker run -p 8888:80 busybee 
+
+------------------------------------------
+-- To stop detached container 
+------------------------------------------
+docker stop busybee
+
+------------------------------------------
+-- To list docker images 
+------------------------------------------
+docker images
+
+------------------------------------------
+-- To build docker image 
+------------------------------------------
+docker build (note : you would need dockerfile configured for this to work)
+
+------------------------------------------
+-- To push docker image to docker registry 
+------------------------------------------
+docker push <image_name>
+
+------------------------------------------
+-- To connect to docker hub 
+------------------------------------------
+docker login # Note login credentials are stored in .docker/config.json
+
+------------------------------------------
+-- To run docker with flags 
+------------------------------------------
+docker run -d -e "container=docker" \
+    -e TZ=America/Los_Angeles \
+    --privileged=true \
+    -v /sys/fs/cgroup:/sys/fs/cgroup \
+    -p 3838:3838 -p 8787:8787 -p 8080:8080 -p 8000:8000 -p 80:80 -p 7000:7000 -p 9001:9001 -p 6006:6006 -p 8081:8081 \
+    --hostname <HOST-NAME> \
+    --name math_server \
+    --env python=/opt/conda/bin/python \
+    bayes-Docker.rws.ad.abc.com:5000/math_server:latest \
+    /usr/sbin/init
+
+https://stash.ea.com/projects/GAI/repos/docker_math_server/browse
+
+# start or restart jupyterhub
+docker exec math_server nohup /opt/conda/bin/jupyterhub --ip=0.0.0.0 --port=8000 -f /jupyterhub_config.py --no-ssl
+
+# create a user
+docker exec math_server useradd -g rstudio <USERNAME>
+
+# set temp password
+docker exec -it math_server passwd <USERNAME>
+
+# install python packages
+docker exec math_server pip install <PACKAGE-NAME>
+docker exec math_server conda install <PACKAGE-NAME>
+
+# install r packages
+docker exec math_server R -e "install.packages(c('<PACKAGE-NAME>'), repos = 'http://cran.us.r-project.org', INSTALL_opts = '--no-html')"
+
+#Backup and Dockerize Existing Math Server Container
+docker commit math_server math_server:<DATE>
+
+# restart container
+docker restart math_server
+docker exec -it math_server nohup /opt/conda/bin/jupyterhub --ip=0.0.0.0 --port=8000 -f /jupyterhub_config.py --no-ssl
+docker exec -it math_server nohup /opt/conda/bin/knowledge_repo --repo /knowledge_repo_server/gai_repo runserver --config /knowledge_repo_server/gai_repo/server_config.py
+
+# stop container
+docker stop math_server
+
+# ssh to container
+docker exec -it math_server /bin/bash
+
+# create a group
+groupadd <GROUP_NAME>
+
+# create a user and assign to a specific  group
+useradd -g <GROUP_NAME> <USERNAME>
+passwd <USERNAME>
+
+# allow certain user/group to have full access to a directory 
+usermod -aG <GROUP_NAME> <USERNAME>
+chown -R <USERNAME>:<GROUP_NAME> <PATH>
+
+docker stats –all
+
+docker run \
+        --volume=/:/rootfs:ro \
+        --volume=/var/run:/var/run:rw \
+        --volume=/sys:/sys:ro \
+        --volume=/var/lib/docker/:/var/lib/docker:ro \
+        --publish=8439:8080 \
+        --detach=true \
+        --name=cadvisor \
+        bayes-Docker.rws.ad.ea.com:5000/cadvisor:latest
+
+# option 2: download from Dockerhub
+docker run \
+    --volume=/:/rootfs:ro \
+    --volume=/var/run:/var/run:rw \
+    --volume=/sys:/sys:ro \
+    --volume=/var/lib/docker/:/var/lib/docker:ro \
+    --publish=8439:8080 \
+    --detach=true \
+    --name=cadvisor google/cadvisor:latest

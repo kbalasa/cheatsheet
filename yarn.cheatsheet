@@ -1,0 +1,23 @@
+# To list all nodes
+yarn node -list
+
+# To stop namenode
+/etc/init.d/hadoop-hdfs-namenode stop
+
+# To stop all data nodes
+yarn node -list|sed -n "s/^\(ip[^:]*\):.*/\1/p" | xargs -t -I{} -P10 ssh -t -o StrictHostKeyChecking=no -i id_dataservices_rsa.pem  hadoop@{} "sudo /etc/init.d/hadoop-hdfs-datanode stop"
+
+# start hive-metastore
+/etc/init.d/hive-metastore restart
+
+# Spark configurations
+spark.kryoserializer.buffer.max.mb 256
+spark.scheduler.mode FAIR
+spark.rdd.compress true
+spark.cleaner.ttl 604800
+spark.driver.maxResultSize 2g
+spark.shuffle.consolidateFiles true
+spark.shuffle.file.buffer.kb 256
+spark.speculation true
+spark.speculation.interval 1000
+spark.io.compression.codec=lz4

@@ -1,0 +1,30 @@
+How to create query_group/ user_group to queue and queye to parameter group.
+===========================================================================
+1. Create a prameter group
+2. Configure parameter group settings
+3. Add Queue (also called as User Queues)
+4. Configure either user groups/ query groups, concurrency, timeout, memory
+5. Associate parameter group with cluster (Modify the cluster -> change the cluster parameter group -> click modify -> reboot)
+for more details check this url : http://docs.aws.amazon.com/redshift/latest/dg/tutorial-wlm-modifying-wlm-configuration.html
+
+To label a query using query_group clause
+=========================================
+set query_group to 'Monday';
+SET
+select * from category limit 1;
+
+Query to view workload queues and their configuration
+=====================================================
+select * from wlm_queue_state_vw;
+
+Query to list all the user groups
+=================================
+select * from pg_group;
+
+Query to list all the users
+===========================
+select * from pg_user;
+
+Query to list all the queries with certain label
+================================================
+select query, pid, substring, elapsed, label from svl_qlog where label ='Monday' order by query;

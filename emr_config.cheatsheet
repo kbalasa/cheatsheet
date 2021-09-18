@@ -1,0 +1,18 @@
+-------------------------------------------------------
+-- To Configure EMR to run python program using spark api
+-------------------------------------------------------
+-- conifgure the following in .bashrc file.
+export SPARK_HOME=/usr/lib/spark
+export PYTHONPATH=$SPARK_HOME/python/lib/py4j-0.10.3-src.zip:$PYTHONPATH
+export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/build:$PYTHONPATH
+
+
+-------------------------------------------------------
+-- Running spark jobs.
+-------------------------------------------------------
+spark-submit test.py
+
+-------------------------------------------------------
+-- To execute python program using spark-submit
+-------------------------------------------------------
+spark-submit --num-executors 4 --executor-cores 2 --executor-memory 4G abc.py > /tmp/some.log 2>&1

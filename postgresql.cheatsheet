@@ -1,0 +1,75 @@
+
+
+SELECT table_schema,table_name
+FROM information_schema.tables where table_schema = 'public'
+ORDER BY table_schema,table_name ;
+
+SELECT table_schema,table_name FROM information_schema.tables where table_schema = 'public' ORDER BY table_schema,table_name;
+
+SELECT datname FROM pg_database
+WHERE datistemplate = false;
+
+select current_database();
+
+SELECT * FROM prod_dma_legal.*;
+
+SELECT
+    table_schema || '.' || table_name
+FROM
+    information_schema.tables
+WHERE
+    table_type = 'BASE TABLE'
+AND
+    table_schema NOT IN ('pg_catalog', 'information_schema');
+
+
+select count(*) from public.agreement_state where state = 'ACCEPTED' limit 10;
+
+# To export table
+=================
+\COPY agreement_state TO '/tmp/agreement.csv' DELIMITER ',' CSV HEADER;
+
+# Command Line login
+====================
+psql -h pocdb2.cavg23mkmtlc.us-east-1.rds.amazonaws.com  -p 5432  -U balak013   -d pocdb
+
+psql -h prod-dma-legal-readonly.rds.wds.io  -p 5432  -U dma_legal_admin   -d prod_dma_legal
+password: U1huVX8hRph15r0b7o4r
+
+# To load json data to postgresql
+=================================
+create table temp_json (values text);
+\copy temp_json from '/Users/balak013/test.json';
+select v->'name' as name from (select values::json as v);
+
+select values->>'EId' as EId,
+       values->>'Category' as Category,
+       values->>'Mac' as Mac,
+       values->>'Path' as Path,
+       values->>'ID' as ID      
+from   (
+           select json_array_elements(replace(values,'\','\\')::json) as values 
+           from   temp_json
+       ) a;
+
+hot_standby_feedback = on
+
+max_standby_streaming_delay = -1
+
+To see tables
+============
+\dt
+
+create table spotify as select v->'added_at' as added_at, v->'added_by'->'id' as added_by_id, v->'album'->'name', v->'artists'->0->'id' as artists_id, v->'artists'->0->'name' as artists_name, v->'available_markets' as available_markets, v->'disc_number' as disc_number, v->'duration_ms' as duration_ms, v->'href' as href, v->'id' as id, v->'name' as name, v->'popularity' as popularity, v->'track_number' as track_number, v->'type' as type, v->'ingest_date' as ingest_date from (select values::json as v from temp_json limit 10) t;
+
+
+copy the_table(jsonfield) 
+from '/path/to/jsondata' 
+csv quote e'\x01' delimiter e'\x02';
+
+spotify_json from '/home/ubuntu/spotify.json' csv quote e'\x01' delimiter e'\x02';
+
+create table spotify as select v->>'added_at' as added_at, v->'added_by'->>'id' as added_by_id, v->'album'->>'name' as album_name, v->'artists'->0->>'id' as artists_id, v->'artists'->0->>'name' as artists_name, v->>'available_markets' as available_markets, v->>'disc_number' as disc_number, v->>'duration_ms' as duration_ms, v->>'href' as href, v->>'id' as id, v->>'name' as name, v->>'popularity' as popularity, v->>'track_number' as track_number, v->>'type' as type, v->>'ingest_date' as ingest_date from (select values as v from spotify_json limit 51) t;
+
+
+create table spotify_more as select v->>'added_at' as added_at, v->'added_by'->>'id' as added_by_id, v->>'playlist_id' as playlist_id, v->>'playlist_name' as playlist_name, v->>'playlist_followers' as playlist_followers, v->>'playlist_external_url' as playlist_external_url, v->>'playlist_uri' as playlist_uri, v->'album'->>'name' as album_name, v->'artists'->0->>'id' as artists_id, v->'artists'->0->>'name' as artists_name, v->>'available_markets' as available_markets, v->>'disc_number' as disc_number, v->>'duration_ms' as duration_ms, v->>'explicit' as explicit, v->>'href' as href, v->>'id' as id, v->>'name' as name, v->>'popularity' as popularity, v->>'track_number' as track_number, v->>'type' as type, v->>'ingest_date' as ingest_date from (select values as v from spotify_json limit 51) t;

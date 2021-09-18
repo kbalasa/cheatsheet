@@ -1,0 +1,15 @@
+-------------------------
+-- How to install psql
+-------------------------
+yum list | grep postgresql
+sudo yum install postgresql95-server
+
+---------------------------------
+-- To execute sql from a file
+---------------------------------
+psql -h <host_name> -p 5439 -U <user_name> -d <database_name> -f <file.sql> 
+
+---------------------------------
+-- To connect to database 
+---------------------------------
+psql -h <host_name> -p 5439 -U <user_name> -d <database_name>  

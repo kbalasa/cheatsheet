@@ -1,0 +1,36 @@
+| shortcut          | meaning                           |
+|-------------------|-----------------------------------|
+| Ctrl + up         | move focus to previous paragraph  |
+| Ctrl + down       | move focus to next paragraph      |
+| Shift + Enter     | run the current paragraph         |
+| Ctrl + Alt + c    | cancel paragraph                  |
+| Ctrl + Alt + d    | remove paragraph                  |
+| Ctrl + Alt + k    | move up                           |
+| Ctrl + Alt + j    | move down                         |
+| Ctrl + Alt + a    | insert new above                  |
+| Ctrl + Alt + b    | insert new below                  |
+| Ctrl + Alt + o    | toggle output                     |
+| Ctrl + Alt + r    | toggle enable/disable             |
+| Ctrl + Alt + e    | toggle editor                     |
+| Ctrl + Alt + m    | toggle showing line numbers       |
+| Ctrl + Shift + -  | width - 1                         |
+| Ctrl + Shift + =  | width + 1                         |
+| Ctrl + Alt + t    | toggle title                      |
+
+ctrl + /         comment whole line
+ctrl + shift + / in-line comment
+
+Control in Note
+	Shift + Enter Run the note
+	Ctrl + p      Move cursor Up
+	Ctrl + n      Move cursor Down
+	
+Control in Note Editor
+	Ctrl + .      Auto-completion
+	Ctrl + k      Cut the line
+	Ctrl + y      Paste the line
+	Ctrl + s      Search inside the code
+	Ctrl + a      Move cursor to the beginning
+	Ctrl + e      Move cursor at the end
+
+

@@ -1,0 +1,46 @@
+# To run test only
+==================
+First add the following to pom.xml
+
+		<plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20.1</version>
+                    <configuration>
+                        <includes>
+                            <include>RiverEventTransformerTest.java</include>
+                            <!--<include>RiverFieldNameMappingConfigTest.java</include>-->
+
+                        </includes>
+                    </configuration>
+                </plugin>
+
+Then run the following code:
+
+mvn -Dmaven.surefire.debug test
+
+Then go to run menu and select remote process.
+
+
+# To deploy release
+===================
+mvn release prepare
+# To compile and build jar
+mvn clean install -DskipTests
+mvn -Dtest=UTF16ToUTF8Test -DfailIfNoTests=false install
+mvn -Dtest=UTF16ToUTF8Test -DfailIfNoTests=false test
+
+# To check for dependency
+mvn dependency::tree
+
+# To display effective POM
+==========================
+mvn help:effective-pom
+
+# Here first clean then dependency and then package
+===================================================
+mvn clean dependency:copy-dependencies package
+
+# To validate whether project is correct and all necessary information is available
+===============================================================================
+mvn validate

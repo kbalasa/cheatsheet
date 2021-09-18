@@ -1,0 +1,4 @@
+# steps to configure pyspark
+# configure this in .bachrc
+export PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
+sudo pip install py4j

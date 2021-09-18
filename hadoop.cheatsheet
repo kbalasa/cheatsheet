@@ -1,0 +1,52 @@
+# Website to get more info.
+===========================
+http://www.dummies.com/programming/big-data/hadoop/hadoop-for-dummies-cheat-sheet/
+
+# List hdfs filesystem
+======================
+hadoop fs -ls /
+hadoop fs -help
+hadoop dfs -ls
+hadoop dfs -cp
+
+hdfs dfs -ls 
+hdfs dfs -mkdir test
+hdfs dfs -copyFromLocal README.txt test
+hdfs dfs -ls test
+hdfs dfs -copyToLocal test/README.txt README.txt
+hdfs dfs -help du
+hdfs dfs -cat hdfs://<path>/file1
+hdfs dfs -cat file://<path>/file1
+hdfs dfs -chgrp [-R] GROUP URI [URI …]
+hdfs dfs -chmod 777 test/data1.txt
+hdfs dfs -chown -R hduser2 /opt/hadoop/logs
+hdfs dfs -count hdfs://nn1.example.com/file1 
+hdfs dfs -du /user/hadoop/dir1 /user/hadoop/file1
+hdfs dfs -du –s
+hdfs dfs -get /user/hadoop/file3 localfile
+hdfs dfs -getmerge <src> <localdst> [addnl]
+hdfs dfs -moveFromLocal <localsrc> <dest>
+hdfs dfs -put <localsrc> … <dest>
+hdfs dfs -rm [-skipTrash] URI [URI …]
+hdfs dfs -setrep <rep> [-R] <path>
+hdfs dfs -stat URI [URI …]
+hdfs dfs -tail /user/hadoop/dir1
+hdfs dfs -test /user/hadoop/dir1
+hdfs dfs -text /user/hadoop/file8.zip
+hdfs dfs -touchz /user/hadoop/file12
+
+
+# hadoop config files
+======================
+hadoop-env.sh
+core-site.xml
+hdfs-site.xml
+mapred-site.xml
+
+# How to submit jobs in hadoop
+==============================
+$hadoop jar example.jar teragen 1000 output_file
+
+# Books
+=======
+map_reduce_design_patterns.pdf

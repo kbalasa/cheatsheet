@@ -1,0 +1,24 @@
+To select a block of text and copy it and paste it
+--------------------------------------------------
+1. Ctrl-v or v (to begin selection)
+2. move the cursor to select the block
+3. y (to yank the block or copy)
+4. p (to paste)
+
+To select a block of text in vi and copy it to clipboard (this works on mac)
+url : https://stackoverflow.com/questions/1620018/copy-all-the-lines-to-clipboard
+--------------------------------------------------------
+1. use v to visually select the block
+2. :w !pbcopy (to copy to clipboard)
+3. :%w !pbcopy (to copy whole file)
+4. :r !pbpaste (to paste from clipboard)
+
+----------------------------------------------
+To insert text at the beginining of the line.
+----------------------------------------------
+1. 1,$ s/^/<text>/g
+
+----------------------------------------------
+To insert text at the end of the line.
+----------------------------------------------
+1. 1,$ s/$/<text>/g

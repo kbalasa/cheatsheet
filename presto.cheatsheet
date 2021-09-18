@@ -1,0 +1,2 @@
+# To connect to presto-cli
+presto-cli --catalog hive

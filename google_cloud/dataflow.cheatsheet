@@ -1,0 +1,7 @@
+python -m apache_beam.examples.wordcount \
+  --input gs://dataflow-samples/shakespeare/kinglear.txt \
+  --region us-central1 \
+  --output gs://goh-XXXX-test-bucket/results/outputs \
+  --runner DataflowRunner \
+  --project xxx-prod-bi-gcp \
+  --temp_location gs://goh-XXXX-test-bucket/tmp/

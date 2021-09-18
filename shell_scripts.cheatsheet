@@ -1,0 +1,37 @@
+#---------------------------
+# To compair all files in a directory
+#---------------------------
+./runDcli druid_nodes/reporting 'find /disk01/imply/versions/2021.01 -type f -exec md5sum {} \; | sort -k 2 | md5sum'
+
+#-----------------------------------------
+# To iterate list of files in a current directory and get compair using regex
+#-----------------------------------------
+tempvar=`ls -l | awk '{print $9}'`
+re="^_job.*"
+sum=0
+for t in `ls -l | awk '{print $9}'`
+do
+        if [[ $t =~ $re ]]; then
+                echo $t ;
+                count=`cat $t| grep "https://forsight.crimsonhexagon.com/api" | wc -l ` ;
+                echo $count
+                sum=` expr $sum + $count ` ;
+        fi
+done
+echo "Total Api requests : $sum"
+#-----------------------------------------
+#-----------------------------------------
+
+# To exit shell script on error
+=============================
+set -e
+
+# To check for exit code
+========================
+if [ $? -eq 0 ]
+then 
+	echo "Good"
+else
+	echo "Bad"
+
+fi

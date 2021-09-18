@@ -1,0 +1,54 @@
+# To run os commands from python (https://stackoverflow.com/questions/89228/calling-an-external-command-in-python)
+================================
+from subprocess import call
+returnCode = call(["ls", "-l"])
+
+
+
+Our Comprehensive Guide to Python Dependencies
+----------------------------------------------
+https://code.kiwi.com/our-comprehensive-guide-to-python-dependencies-8a5a4366a563
+
+To install python3 on amazon linux
+----------------------------------
+sudo yum install python36
+
+To make python3 as default python interpreter
+--------------------------------------------
+$ python --version
+Python 2.7.6
+$ python3 --version
+Python 3.4.3
+$ alias python=python3 (add this in .bashrc)
+$ python --version
+Python 3.4.3
+
+To check python version
+-----------------------
+python --version
+
+-----------------------------------------------------
+-- To install and use python virtual environment
+-----------------------------------------------------
+pip install virtualenv
+virtualenv <path>/<environment_name>
+
+----------------------------------------
+-- To install library to given directory
+----------------------------------------
+pip install -r requirements.txt -t ./src
+
+------------------------------------
+-- To include libraries in zip file 
+------------------------------------
+if os.path.exists('libs.zip'):
+    sys.path.insert(0, 'libs.zip')
+
+
+----------------------------
+-- How to install python3 --
+----------------------------
+export LC_ALL="en_US.UTF-8"
+sudo apt update
+sudo apt install python3-pip
+pip3 install pip matplotlib jupyter --user

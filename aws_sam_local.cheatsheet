@@ -1,0 +1,19 @@
+How to install npm on mac
+==========================
+brew install node
+
+How to install sam local on mac
+==============================
+npm install -g aws-sam-local
+
+How to check for sam version
+============================
+sam --version
+
+How to Generate sample function payloads
+========================================
+sam local generate-event s3 --bucket bucket-name  --key key-name > event_file.json
+
+To start web server (need to run docker first)
+==============================================
+sam local start-api

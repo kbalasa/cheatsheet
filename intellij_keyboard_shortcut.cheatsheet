@@ -1,0 +1,58 @@
+package com.disney.techtalks;
+import java.util.ArrayList;
+import java.util.List;
+public class LightningTalk {
+    public void navWithKeyboard() {
+        // HIDE TABS (search for Editor Tabs in Preferences)
+        // HIDE NAV BAR (use View menu)
+        // HIDE IT ALL
+        // double tap shift for search everywhere
+        // cmd+e for recent files and tools
+        // ctrl+tab for switcher
+        // cmd+up for nav bar (filter search)
+        // cmd+1 for project view
+        // cmd+shift+F12 for full screen
+        // double tap and hold cmd for tool buttons
+    }
+    public void pasteFromHistoryOne() {
+        String s = "CUT_ME";
+        String s2 = "COPY_ME";
+    }
+    public void pasteFromHistoryTwo() {
+        // cmd+shift+v
+    }
+    public class Person {
+        private String name;
+        // generate getter (cmd+n)
+        // refactor menu ctrl+t (you can start typing to filter/search on any popup menu)
+        // generate constructor (cmd+n)
+        // add field with intention actions (opt+enter)
+    }
+    public void smartCompletion(Person person) {
+        // log person's name (psfs to create TAG, ctrl+shift+space...twice! for smart complete)
+        // cmd+shift+a (all commands!) (e.g. declaration, usages, build, tabs, etc)
+    }
+    public void liveTemplatesOne(Object data, String name) {
+        // if name is null return early (name.null)
+        // check type and cast data (inn, inst)
+    }
+    public void liveTemplatesTwo(List<String> names) {
+        // iterate through list (names.for)
+        // iterate through list (itli)
+        ArrayList<Person> team = new ArrayList<Person>();
+        // search live templates (cmd+j)
+        // opt+space for quick definition
+    }
+    /************************************************************/
+    /*TODO: ALL COMMANDS:    CMD+SHIFT+A [WINDOWS: CTRL+SHIFT+A]*/
+    /************************************************************/
+    //TODO: RECENT FILES:    CMD+E [CTRL+E]
+    //TODO: OPEN ANY FILE:   DOUBLE TAP SHIFT
+    //TODO: LIVE TEMPLATES:  CMD+J [WINDOWS: CTRL+J]
+    //utility method, ignore...
+    public static class Log {
+        public static void d(String tag, String message) {
+            // log message to console
+        }
+    }
+}

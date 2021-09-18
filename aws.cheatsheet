@@ -1,0 +1,23 @@
+# To get beanstalk environment configuration
+============================================
+aws elasticbeanstalk describe-configuration-settings --application-name falcon-river-proxy-worker --environment-name falcon-river-prod
+
+# To get shard-iterator
+=======================
+aws kinesis get-shard-iterator --stream-name sw-prod-events --shard-id 1 --shard-iterator-type LATEST
+
+# To get records from kinesis 
+=============================
+aws kinesis get-records --shard-iterator AAAAAAAAAAGjFeW9PJuKn8v99PNNE8Hto6JKX0heIV3IUJwwwx7CKhoRWe8ye4f0zKCJxN+bCuv7p1LBymCUX1+NviP9CQvpX1UsjqpRXuJT9HHKNlOWqlIsJogSY5+3q7uvvdo3ZWnQBiw2zfw77RRluK+EAgrtJ3v7CKjeDSnL6V1rMUhP/HWafIcLdSDLbZgluPyZWiiy528Hn8gH2dMFniAMwvOx --limit 5
+
+# To delete objects from s3
+===========================
+aws s3 rm s3://bucket_name/file_name.sql --dryrun
+
+# To ls objects from s3
+===========================
+aws s3 ls s3://bucket_name/folder_name/ 
+
+# To cp objects to s3
+===========================
+aws s3 cp local_file_name s3://bucket_name/folder_name/ 

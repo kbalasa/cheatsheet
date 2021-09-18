@@ -1,0 +1,31 @@
+Becoming one with the data
+==========================
+https://blog.floydhub.com/becoming-one-with-the-data/?utm_campaign=Data_Elixir&utm_medium=email&utm_source=Data_Elixir_248
+
+Essence of linear algebra
+=========================
+https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
+
+Linear Algebra
+==============
+https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/video-lectures/
+
+AI Programming Languages and more
+=================================
+https://it.toolbox.com/article/size-of-a-dinner-plate-worlds-largest-chip-unveiled-for-ai-data-centers
+
+Railyard: how we rapidly train machine learning models with Kubernetes (talks about infrastructure to run ML programs)
+======================================================================
+https://stripe.com/en-ca/blog/railyard-training-models
+
+ML infrastructure FLOYDHUB
+===========================
+https://blog.floydhub.com/aws-cost-optimization-for-ml-infra-ec2/?utm_campaign=Data_Elixir&utm_source=Data_Elixir_273
+
+Magic Quadrant for Data Science and Machine Learning Platforms
+==============================================================
+https://www.gartner.com/doc/reprints?id=1-1YCTPMUL&ct=200213&st=sb&utm_medium=Website+
+
+Five Interesting Data Engineering Projects
+=========================================
+https://medium.com/@squarecog/five-interesting-data-engineering-projects-48ffb9c9c501

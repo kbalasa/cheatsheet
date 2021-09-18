@@ -1,0 +1,9 @@
+# To get delta data
+===================
+sqoop import --connect "jdbc:sqlserver://<ip_address>:7007;databaseName=<database_name>" --username "<user_name>" --password "<password>"  --table "<table_name>" -m 1 --target-dir /tmp/delta.txt --null-string '\\N' --null-non-string '\\N' --hive-drop-import-delims --fields-terminated-by '\001' --lines-terminated-by '\012' --incremental lastmodified --check-column insert_date --last-value "2015-03-21 00:00:00" --outdir ~/folder1/subfolder/java_files &> /tmp/junk
+
+# To get mysql data
+==================
+sqoop import --connect jdbc:mysql://<ip_address>:3306/Shield --username=<user_name> --password=<password> --table <table_name> --m 1 --target-dir 'file:///data/sqoop-user-file/folder1/folder2/folder3/folder4' --as-textfile
+
+sqoop codegen --connect "jdbc:mysql://<ip_address>:3306/Shield" --username "<user_name>" --password "<password>"  --table "<table_name>"   --hive-import --hive-table raw_VendorUser --outdir ~/folder1/folder2/folder3 &> ~/folder1/folder2/folder3/file.log

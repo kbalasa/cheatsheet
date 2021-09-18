@@ -1,0 +1,47 @@
+# To configure bucket policy - On the SourceBucket the policy should be like:
+============================
+{
+"Id": "Policy1357935677554",
+"Statement": [
+    {
+        "Sid": "Stmt1357935647218",
+        "Action": [
+            "s3:ListBucket"
+        ],
+        "Effect": "Allow",
+        "Resource": "arn:aws:s3:::SourceBucket",
+        "Principal": {"AWS": "arn:aws:iam::XXXXXXXXXXXX:user/src–iam-user"}
+    },
+    {
+        "Sid": "Stmt1357935676138",
+        "Action": ["s3:GetObject"],
+        "Effect": "Allow",
+        "Resource": "arn:aws:s3::: SourceBucket/*",
+        "Principal": {"AWS": "arn:aws:iam::XXXXXXXXXXXX:user/src–iam-user"}
+   }
+]
+}
+
+On the DestinationBucket the policy should be:
+==============================================
+{
+"Id": "Policy1357935677554",
+"Statement": [
+    {
+        "Sid": "Stmt1357935647218",
+        "Action": [
+            "s3:ListBucket"
+        ],
+        "Effect": "Allow",
+        "Resource": "arn:aws:s3::: DestinationBucket",
+        "Principal": {"AWS": "arn:aws:iam::XXXXXXXXXXXX:user/src–iam-user"}
+    },
+    {
+        "Sid": "Stmt1357935676138",
+        "Action": ["s3:PutObject"],
+        "Effect": "Allow",
+        "Resource": "arn:aws:s3::: DestinationBucket/*",
+        "Principal": {"AWS": "arn:aws:iam::XXXXXXXXXXXX:user/src–iam-user"}
+   }
+]
+}

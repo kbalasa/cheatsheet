@@ -1,0 +1,46 @@
+# To list all indexes in a database
+===================================
+SELECT DISTINCT TABLE_NAME, INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS;
+
+# To list indexes on a given table
+==================================
+SHOW INDEX FROM druid_pendingsegments FROM druid;
+or
+SHOW INDEX FROM db_name.table_name;
+
+# To see the DDL for a table;
+============================
+show create table druid_pendingsegments;
+
+# To load data from file
+=========================
+load data local infile '/home/ubuntu/spotify.csv' into table spotify fields terminated by ',' optionally enclosed by '"' escaped by '"' lines terminated by '\n'  ignore 1 lines;
+
+mysql --host=<host_name> --port=3306 --user=tableau --password=<password> <database_name>
+
+#To grant privileges to users
+=============================
+GRANT ALL PRIVILEGES ON *.* TO 'USERNAME'@'%'
+
+#Apply the changes
+==================
+FLUSH PRIVILEGES;
+
+
+Prod azkaban credentials.
+=========================
+database.type=mysql
+mysql.port=3306
+mysql.host=<host_name>
+mysql.database=azkaban
+mysql.user=<user_name>
+mysql.password=<password>
+mysql.numconnections=100
+
+To Start mysql server on mac
+============================
+mysql.server start
+
+mysqldump command
+=================
+mysqldump -h <host_name> -u $( egrep mysql.user /opt/azkaban/current/conf/azkaban.properties | awk -F= '{print $2}' ) --password=$( egrep mysql.password /opt/azkaban/current/conf/azkaban.properties | awk -F= '{print $2}' ) azkaban projects > projects.sql

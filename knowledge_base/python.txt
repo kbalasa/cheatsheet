@@ -1,0 +1,41 @@
+------------------------------
+# Data structures using Python
+------------------------------
+https://runestone.academy/runestone/books/published/pythonds/index.html
+
+------------------------------------------
+# Stop using utcnow and utcfromtimestamp
+------------------------------------------
+https://blog.ganssle.io/articles/2019/11/utcnow.html
+
+-------------------------------------------------------------------
+# Python Datetime Tutorial: Manipulate Times, Dates, and Time Spans
+-------------------------------------------------------------------
+https://www.dataquest.io/blog/python-datetime-tutorial/
+
+-------------------------------------
+# Why you should use `python -m pip`
+-------------------------------------
+https://snarky.ca/why-you-should-use-python-m-pip/
+
+-----------------------------------
+The Most Underrated Python Packages
+-----------------------------------
+https://towardsdatascience.com/the-most-underrated-python-packages-e22bf6049b5e
+
+---------------------------
+Subpar is a utility for creating self-contained python executables
+---------------------------
+https://github.com/google/subpar
+
+How to scale Python multiprocessing to a cluster with one line of code
+======================================================================
+https://medium.com/distributed-computing-with-ray/how-to-scale-python-multiprocessing-to-a-cluster-with-one-line-of-code-d19f242f60ff
+
+A Guide to Python Lambda Functions
+==================================
+https://adamj.eu/tech/2020/08/10/a-guide-to-python-lambda-functions/
+
+Packaging Python Code
+====================
+https://www.ardanlabs.com/blog/2020/08/packaging-python-code.html

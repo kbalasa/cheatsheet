@@ -1,0 +1,21 @@
+----------------------------------------
+# Installing homebrew ( https://treehouse.github.io/installation-guides/mac/homebrew )
+----------------------------------------
+1. Install xcode ( http://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12 ) 
+2. ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+
+----------------------
+# Installing python3 on mac ( https://wsvincent.com/install-python3-mac/ )
+----------------------
+1. Install xcode
+2. Install homebrew
+3. brew install python3
+4. in .bash_profile set the following : alias python='python3'
+ 
+----------------------
+# Installing AWS CLI on mac ( https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html )
+----------------------
+1. Install python3
+2. curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+3. unzip awscli-bundle.zip
+4. sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
