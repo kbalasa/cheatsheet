@@ -1,3 +1,7 @@
+# To add index to a table
+========================
+Alter table druid_segments add KEY `idx_druid_used_datasource_start_end` (`used`,`dataSource`,`start`,`end`);
+
 # To list all indexes in a database
 ===================================
 SELECT DISTINCT TABLE_NAME, INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS;
