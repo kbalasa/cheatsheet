@@ -1,0 +1,3 @@
+# to print column 2 with field separator "
+=========================================
+ awk -F'"' '{print $2}' <file_name>
