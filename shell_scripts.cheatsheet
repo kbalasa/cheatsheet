@@ -1,4 +1,12 @@
 #---------------------------
+# To replace a string in multiple files
+#---------------------------
+for Mac:
+ sed -i '.bak' 's/xxxx/map/g' *
+for Linux
+ sed -i 's/xxxx/map/g' *
+
+#---------------------------
 # To compair all files in a directory
 #---------------------------
 ./runDcli druid_nodes/reporting 'find /disk01/imply/versions/2021.01 -type f -exec md5sum {} \; | sort -k 2 | md5sum'
