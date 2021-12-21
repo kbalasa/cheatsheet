@@ -1,4 +1,14 @@
 #---------------------------
+To remove spaces from begining of the line
+#---------------------------
+1,$ s/^ *//g
+
+#---------------------------
+# To filter data by field separator
+#---------------------------
+cat <file_name> | awk '{print $8}' | awk -F '/' '{print $NF}'
+
+#---------------------------
 # To replace a string in multiple files
 #---------------------------
 for Mac:
