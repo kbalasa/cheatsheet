@@ -1,0 +1,5 @@
+Start a screen: screen -S <name>
+Detach from screen: Ctrl+a Ctrl+d
+List screen : screen -ls
+reattach : screen -r <screen_id>
+reattach : screen -r <screen_name>

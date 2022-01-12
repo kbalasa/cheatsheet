@@ -28,6 +28,7 @@ hdfs dfs -getmerge <src> <localdst> [addnl]
 hdfs dfs -moveFromLocal <localsrc> <dest>
 hdfs dfs -put <localsrc> … <dest>
 hdfs dfs -rm [-skipTrash] URI [URI …]
+hdfs dfs -rm -r <directory>
 hdfs dfs -setrep <rep> [-R] <path>
 hdfs dfs -stat URI [URI …]
 hdfs dfs -tail /user/hadoop/dir1
