@@ -1,0 +1,4 @@
+=====================
+# Spark Shell Command
+=====================
+spark-shell --num-executors 50 --executor-cores 4 --executor-memory 40g --driver-memory 12g --conf spark.network.timeout=10000000
