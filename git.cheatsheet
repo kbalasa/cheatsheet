@@ -1,3 +1,11 @@
+# when you want to record the current state of the working directory and the index, but want to go back to a clean working directory
+git stash
+git stash list
+git stash show
+git stash clear : removes all the stash entries
+git stash pop : Remove a single stashed state from the stash list and apply it on top of the current working tree state
+git stash apply :  Like pop, but do not remove the state from the stash list.
+
 # to revert file change to previous commit
 ===========================================
 git checkout <file_name>

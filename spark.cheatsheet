@@ -1,4 +1,4 @@
 =====================
 # Spark Shell Command
 =====================
-spark-shell --num-executors 50 --executor-cores 4 --executor-memory 40g --driver-memory 12g --conf spark.network.timeout=10000000
+spark-shell --num-executors 40 --executor-cores 4 --executor-memory 40g --driver-memory 6g --conf spark.network.timeout=10000000 spark.scheduler.listenerbus.eventqueue.capacity=20000
