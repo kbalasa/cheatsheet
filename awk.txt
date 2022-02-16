@@ -1,3 +1,7 @@
 # to print column 2 with field separator "
 =========================================
  awk -F'"' '{print $2}' <file_name>
+
+# to sum column 1
+==================
+cat <file_name> |awk '{sum+=$1;}END{print sum;}'

@@ -6,6 +6,10 @@ git stash clear : removes all the stash entries
 git stash pop : Remove a single stashed state from the stash list and apply it on top of the current working tree state
 git stash apply :  Like pop, but do not remove the state from the stash list.
 
+# to list the previous commits
+==============================
+git log
+
 # to revert file change to previous commit
 ===========================================
 git checkout <file_name>
