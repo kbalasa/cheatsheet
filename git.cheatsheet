@@ -94,6 +94,11 @@ git merge <branch_name>
 =========================
 git push origin --delete serverfix
 
+# to delete local branch
+=========================
+ git branch -d <branch_name> #(if merged)
+ git branch -D <branch_name> #(if not merged and want to force it)
+
 # To rename a file in git repository
 ==================================
 git mv <old.file> <new.file>

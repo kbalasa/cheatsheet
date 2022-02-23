@@ -5,3 +5,7 @@
 # to sum column 1
 ==================
 cat <file_name> |awk '{sum+=$1;}END{print sum;}'
+
+# to combine literal and column using awk
+========================================
+cat 2007_files.py | awk '{print "\""$3"\","}' | grep '"part' > 2007_files2.py
