@@ -1,3 +1,13 @@
+# To checkout remote branch
+===========================
+git fetch 
+OR 
+git fetch origin
+
+git branch -v -a # to list the remote branches
+git checkout <remote_branch_name>
+
+
 # when you want to record the current state of the working directory and the index, but want to go back to a clean working directory
 git stash
 git stash list
