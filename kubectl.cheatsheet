@@ -1,0 +1,11 @@
+
+kubectl config use-context <cluster> 
+example:
+kubectl config use-context us-west-2d
+
+kubectl get pod
+kubectl auth can-i list pod
+kubectl auth can-i update pod
+kubectl auth can-i --list 
+kubectl edit deployment
+kubectl --namespace=jupyter port-forward jupyter-0 80:8080
