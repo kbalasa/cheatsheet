@@ -1,3 +1,10 @@
+To learn kubernetes interactively
+=================================
+https://kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-interactive/
+
+Deploying spark on kubernetes
+===============================
+https://levelup.gitconnected.com/spark-on-kubernetes-3d822969f85b
 
 kubectl config use-context <cluster> 
 example:
@@ -9,3 +16,16 @@ kubectl auth can-i update pod
 kubectl auth can-i --list 
 kubectl edit deployment
 kubectl --namespace=jupyter port-forward jupyter-0 80:8080
+
+kubectl prot-forward <pod> <remote-port>:<local-port> --v 9 # for logging
+
+kubectl -n aci-website-prod apply -f service-account.yml
+kubectl -n aci-website-prod get secrets
+kubectl -n aci-website-prod get secrets build-robot-token-5t46p -o=jsonpath='{.data.token}'
+
+# ----------------------------------
+# To see the current context
+# ----------------------------------
+kubectl config current-context
+
+
