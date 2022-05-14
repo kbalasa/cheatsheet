@@ -1,0 +1,9 @@
+# to launch
+k9s --cluster
+
+#commands
+namespaces
+pods
+services
+ctrl a : to see command list
+
