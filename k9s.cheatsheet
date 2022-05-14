@@ -1,9 +1,14 @@
 # to launch
 k9s --cluster
+k9s info
+k9s version
 
 #commands
-namespaces
-pods
-services
-ctrl a : to see command list
+:contexts
+:namespaces
+:pods
+:services
+:pulses
 
+ctrl + a : to see command list
+shift + ? : to get to help
