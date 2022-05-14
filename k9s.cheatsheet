@@ -9,6 +9,7 @@ k9s version
 :pods
 :services
 :pulses
-
+:popeye
+:xray pod default
 ctrl + a : to see command list
 shift + ? : to get to help
