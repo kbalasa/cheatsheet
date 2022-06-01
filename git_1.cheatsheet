@@ -1,0 +1,196 @@
+# To checkout remote branch
+===========================
+git fetch 
+OR 
+git fetch origin
+
+git branch -v -a # to list the remote branches
+git checkout <remote_branch_name>
+
+
+# when you want to record the current state of the working directory and the index, but want to go back to a clean working directory
+git stash
+git stash list
+git stash show
+git stash clear : removes all the stash entries
+git stash pop : Remove a single stashed state from the stash list and apply it on top of the current working tree state
+git stash apply :  Like pop, but do not remove the state from the stash list.
+
+# to list the previous commits
+==============================
+git log
+
+# to revert file change to previous commit
+===========================================
+git checkout <file_name>
+
+# to checkout single branch from remote
+======================================
+git clone -b <branch_name>  --single-branch git@github.abc.com:<folder>/<project>.git
+
+# to checkout remote branch
+===========================
+git checkout <remote_branch_name>
+
+# to see all the remote branches
+================================
+git branch -a
+
+# when files still shows after being removed from git
+=====================================================
+git clean -fd
+
+# To revert a file older version
+===============================
+git checkout 8edccb30f4a0be1dc131a0fc36aafbac511ccb85 -- users_gear_daily.sql
+
+# To move folder to another folder
+=================================
+git mv pvp aggregate_tables/
+
+# To overwrite a branch from remote repo
+========================================
+git fetch --all
+git reset --hard origin/<branch>
+
+# To delete big file from git repo
+=================================
+git filter-branch --index-filter 'git rm --cached --ignore-unmatch <file_name>'
+
+# How to list all tags
+======================
+git tag
+
+# How to create Annotated Tag
+=============================
+git tag -a 1.0.1-RELEASE -m "message"
+
+# How to push newly created tag to remote repository
+====================================================
+git push --follow-tags  
+
+# How to fork ST repository to personal repository
+==================================================
+1. Go to github.disney.com select the ST repository to fork and on top right side click on the Fork button.
+2. You then select the user you want to fork it to
+
+# To overwrite master with branch
+===============================
+git checkout seotweaks
+git merge -s ours master
+git checkout master
+git merge seotweaks
+
+# To override the local git repository with remote git repository
+===============================================================
+git fetch origin
+git reset --hard origin/master
+
+# To overwrite only one file from git repo
+ =========================================
+git fetch
+git checkout origin/master <filepath>
+
+
+# To merge a branch to master
+=============================
+git checkout master
+or
+git checkout -f master (force checkout)
+
+git merge <branch_name>
+
+# To delete remote branch
+=========================
+git push origin --delete serverfix
+
+# to delete local branch
+=========================
+ git branch -d <branch_name> #(if merged)
+ git branch -D <branch_name> #(if not merged and want to force it)
+
+# To rename a file in git repository
+==================================
+git mv <old.file> <new.file>
+
+# How to create a remote branch
+===============================
+1. git branch <local_branch_name>
+2. git checkout <local_branch_name>
+3. git push origin <local_branch_name>
+
+# To remove files and directories remotely but not locally
+==========================================================
+git rm --cached -r .idea
+git rm --cached filename
+
+# To remove files from git and locally
+======================================
+git rm <file_name>
+
+# To create branch and switch at the same time
+==============================================
+git checkout -b <branch_name>
+or
+git branch <branch_name>
+git checkout <branch_name>
+
+# To merge a branch to master
+=============================
+git checkout master
+git merge <branch_name>
+
+# To delete a branch
+====================
+git branch -d <branch_name>
+
+# To merge master into branch
+=============================
+1. git checkout <branch>
+2. git merge master
+
+# To merge into master
+=======================
+1. git checkout master
+2. git merge <branch>
+
+
+# To see which files are unmerged at any point after a merge conflict
+=============================================
+1. git status
+2. look for unmerged files.
+3. resolve the conflect
+4. git add <resolved files>
+
+# To clone remote repository
+===========================
+git clone <https://url>
+
+
+# To see remote repository
+==========================
+git remote
+git remote -v
+
+# To push to master only
+========================
+git push origin master
+
+# To see more info about a remote info
+======================================
+git remote show origin
+
+# To remove a remote repository
+===============================
+git remote rm <repo_name>
+
+# To rebase code from xyz repository to your own repository
+==============================================================
+git remote  add studio git@<git_host_name>:ST/repo.git
+git remote -v show
+git fetch studio // This will download the repo
+git checkout -b <branch_name> studio/<branch_name> // this will create a branch from studio/spark14migration branch
+
+# To rebase from upstream master
+================================
+git rebase upstream/master

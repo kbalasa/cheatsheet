@@ -1,0 +1,10 @@
+kflist
+kfoffset insight_acorn_channel_lane3
+kfdescribe insight_acorn_channel_lane3
+kfoffsettotal insight_acorn_lite_stage
+kfcreate insight-tck-druid-dup 6
+kfshowmsg insight_acorn_lite_stage
+kfbeginoffset insight_ff_module_orig
+kafka-topics --zookeeper host.abc.com:2181 --delete --topic druid-metrics
+kfcreate druid-metrics 10
+kfshowmsg | grep 'Druid-Mesa-Staging'
