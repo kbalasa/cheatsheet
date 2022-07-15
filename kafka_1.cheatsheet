@@ -8,3 +8,6 @@ kfbeginoffset insight_ff_module_orig
 kafka-topics --zookeeper host.abc.com:2181 --delete --topic druid-metrics
 kfcreate druid-metrics 10
 kfshowmsg | grep 'Druid-Mesa-Staging'
+
+kafka-console-producer --topic "test_topic" --broker-list "efg.com:9092,abc.com:9092"
+kafka-console-consumer --bootstrap-server "abc.com:9092,efg.com:9092" --topic "test_topic" --from-beginning

@@ -1,5 +1,5 @@
 # to launch
-k9s --cluster
+k9s --cluster us-west-2d
 k9s info
 k9s version
 
