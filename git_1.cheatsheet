@@ -1,3 +1,9 @@
+# To revert to previous commit
+==================================
+git reset <commit_id>
+git push -f origin <branch_name> # is will force commit the remote branch
+
+
 # To checkout remote branch
 ===========================
 git fetch 
