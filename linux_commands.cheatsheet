@@ -1,3 +1,8 @@
+# To find if a port is in use
+=============================
+lsof -i tcp:8080
+netstat -vanp tcp | grep 8080
+
 # To see open ports
 ====================
 sudo lsof -i -P -n | grep LISTEN
