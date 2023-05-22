@@ -55,4 +55,14 @@ public class LightningTalk {
             // log message to console
         }
     }
+
 }
+
+cmd + shift + a   : to search for actions.
+shift + shift : to search every where in the project
+cmd + o : to search for a class
+cmd + shift + o : to search for any file.
+cmd + option + o : to seach for symbols.
+cmd + 1 : to go to project window.
+cmd + e : to go to recent windows.
+cmd + shift + e : to recent locations.
