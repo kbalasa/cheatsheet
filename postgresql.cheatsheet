@@ -60,6 +60,10 @@ To see tables
 ============
 \dt
 
+To list databases
+=================
+\db
+
 create table spotify as select v->'added_at' as added_at, v->'added_by'->'id' as added_by_id, v->'album'->'name', v->'artists'->0->'id' as artists_id, v->'artists'->0->'name' as artists_name, v->'available_markets' as available_markets, v->'disc_number' as disc_number, v->'duration_ms' as duration_ms, v->'href' as href, v->'id' as id, v->'name' as name, v->'popularity' as popularity, v->'track_number' as track_number, v->'type' as type, v->'ingest_date' as ingest_date from (select values::json as v from temp_json limit 10) t;
 
 

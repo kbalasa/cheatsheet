@@ -1,10 +1,22 @@
+# How do I squash my last N commits together?
+============================================
+if you want to write the new commit message from scratch, this suffices:
+git reset --soft HEAD~3  # does not retain authors information
+git commit
+git push --force origin <branch-name>
+
+or
+git rebase -i HEAD~3 
+
+
+
 # To revert to previous commit
 ==================================
 git reset <commit_id>
 git push -f origin <branch_name> # is will force commit the remote branch
 
 
-# To checkout remote branch
+# To checkout new remote branch
 ===========================
 git fetch 
 OR 
