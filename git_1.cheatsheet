@@ -1,3 +1,14 @@
+# To rebase and about rebase
+============================
+git rebase -i HEAD~<n commits> # interactive rebase
+git rebase --abort # to abort rebase
+
+# To undo rebase
+================
+git reflog # look for required commit id
+git reset --hard db79916 # where db79916 is commit id
+
+
 # How do I squash my last N commits together?
 ============================================
 if you want to write the new commit message from scratch, this suffices:
@@ -12,6 +23,7 @@ git rebase -i HEAD~3
 
 # To revert to previous commit
 ==================================
+git log # to get the commit_id
 git reset <commit_id>
 git push -f origin <branch_name> # is will force commit the remote branch
 
