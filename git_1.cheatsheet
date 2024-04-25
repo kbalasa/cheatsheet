@@ -1,4 +1,4 @@
-# To rebase and about rebase
+# To rebase and abort rebase
 ============================
 git rebase -i HEAD~<n commits> # interactive rebase
 git rebase --abort # to abort rebase
@@ -18,6 +18,16 @@ git push --force origin <branch-name>
 
 or
 git rebase -i HEAD~3 
+
+or
+git log # identify the oldest commit has you want to squash
+git rebase -i <commit-hash>
+Change the word "pick" to "squash" (or just "s") for each commit you want to squash into the commit above it
+Leave the first commit's line as "pick"
+Save and exit the editor
+Git will present you with a new editor to edit the combined commit message
+Write a clear and concise message that represents the changes in all squashed commits.
+Save and exit the editor.
 
 
 
