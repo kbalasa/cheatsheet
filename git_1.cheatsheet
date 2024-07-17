@@ -28,6 +28,8 @@ Save and exit the editor
 Git will present you with a new editor to edit the combined commit message
 Write a clear and concise message that represents the changes in all squashed commits.
 Save and exit the editor.
+User --force flag to push the commit to remote branch
+git push --force origin <branch-name>
 
 
 
