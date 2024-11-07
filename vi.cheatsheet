@@ -22,3 +22,8 @@ To insert text at the beginining of the line.
 To insert text at the end of the line.
 ----------------------------------------------
 1. 1,$ s/$/<text>/g
+
+----------------------------------------------
+To replace \n characters with newline
+----------------------------------------------
+1,$ s/\\n/\r/g
