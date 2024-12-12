@@ -1,3 +1,12 @@
+
+# To find the size of hdfs directory
+===================================
+hdfs dfs -du -s -h /user/head/warehouse
+
+# To list the files in hdfs directory
+=====================================
+hdfs dfs -ls /user/head/warehouse
+
 # Website to get more info.
 ===========================
 http://www.dummies.com/programming/big-data/hadoop/hadoop-for-dummies-cheat-sheet/
