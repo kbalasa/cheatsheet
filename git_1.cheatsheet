@@ -1,3 +1,12 @@
+# Say you create a feature branch from local prod branch which is stale. Then you work on feature branch. later you update your local prod with remote prod. Now you want to update the latest prod changes to your feature branch.
+1. swtich to feature branch
+2. git rebase prod
+3. if you see conflects resolve the conflects and add the files back ( git add <file_name> )
+4. git rebase --continue
+5. As long as you see errors continue doing the same 
+6. once everything is resolved ( git push --force origin <branch_name>
+
+
 # To rebase and abort rebase
 ============================
 git rebase -i HEAD~<n commits> # interactive rebase
