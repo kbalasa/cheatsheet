@@ -1,3 +1,15 @@
+--------------------
+To create database
+--------------------
+create database <database_name>
+
+--------------------
+Switch to created database
+--------------------
+\c database_name
+
+
+
 To describe table
 =================
 \d

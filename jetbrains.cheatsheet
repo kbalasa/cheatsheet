@@ -6,4 +6,16 @@ Alt + f12
 ==========================================
 command key + 2
 
+# To switch between files
+=========================
+ctrl + tab
+
+# To focus on project window
+============================
+command + 1
+
+# To switch to terminal window
+==============================
+ctl + tab + t
+
 
